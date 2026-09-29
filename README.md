@@ -35,9 +35,3 @@ python src/linear_eval.py    # Evaluate representation quality
 ## Author
 Hessam Kaveh — Research Fellow, Italian Institute of Technology
 
-## Results
-See `results/training_curves.png` and `results/confusion_matrix.png`
-
-
-## Author
-Hessam Kaveh — Research Fellow, Italian Institute of Technology
