@@ -27,6 +27,14 @@ python src/pretrain.py       # Self-supervised pretraining
 python src/linear_eval.py    # Evaluate representation quality
 ```
 
+## Pretrained weights
+
+The trained checkpoint is attached to the [v1.0 release](https://github.com/HessamKaveh/simclr-contrastive-learning/releases/tag/v1.0) (not stored in git):
+
+```bash
+wget -P results https://github.com/HessamKaveh/simclr-contrastive-learning/releases/download/v1.0/encoder_pretrained.pt   # 45 MB
+```
+
 ## Results
 
 | Metric | Value |
