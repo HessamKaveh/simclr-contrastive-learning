@@ -5,3 +5,6 @@ venv/
 .env
 *.pt
 !results/encoder_pretrained.pt
+# model checkpoints (kept out of git; reproduce with src/train.py)
+*.pt
+*.pth
