@@ -28,10 +28,19 @@ python src/linear_eval.py    # Evaluate representation quality
 ```
 
 ## Results
-- `results/pretrain_loss_curve.png` — contrastive loss during pretraining
-- `results/linear_eval_curve.png` — downstream classification accuracy
-- `results/linear_eval_summary.json` — final accuracy with frozen features
+
+| Metric | Value |
+|---|---|
+| Linear-probe accuracy, CIFAR-10 test set (frozen encoder) | **72.1 %** |
+| Pretraining epochs / linear-probe epochs | 30 / 15 |
+
+<p align="center"><img src="results/pretrain_loss_curve.png" width="85%"></p>
+
+<p align="center"><img src="results/linear_eval_curve.png" width="85%"></p>
 
 ## Author
 Hessam Kaveh — Research Fellow, Italian Institute of Technology
 
+## License
+
+Released under the [MIT License](LICENSE).
