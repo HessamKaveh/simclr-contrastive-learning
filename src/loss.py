@@ -4,8 +4,8 @@ import torch.nn.functional as F
 
 def nt_xent_loss(z1, z2, temperature=0.5):
     """
-    NT-Xent (Normalized Temperature-scaled Cross Entropy) Loss - هسته اصلی SimCLR.
-    z1, z2: (B, D) بردارهای projection برای دو view مختلف از همون batch تصاویر
+    NT-Xent (Normalized Temperature-scaled Cross Entropy) loss - the core of SimCLR.
+    z1, z2: (B, D) projection vectors for two views of the same batch of images
     """
     batch_size = z1.size(0)
     z1 = F.normalize(z1, dim=1)
@@ -15,11 +15,11 @@ def nt_xent_loss(z1, z2, temperature=0.5):
     similarity_matrix = torch.matmul(representations, representations.T)  # (2B, 2B)
     similarity_matrix = similarity_matrix / temperature
 
-    # ماسک برای حذف شباهت یک نمونه با خودش
+    # mask to remove the similarity of each sample with itself
     mask = torch.eye(2 * batch_size, dtype=torch.bool, device=z1.device)
     similarity_matrix.masked_fill_(mask, -1e9)
 
-    # positive pair برای نمونه i در بازه [0, B) با نمونه i+B است و برعکس
+    # the positive for sample i in [0, B) is sample i+B, and vice versa
     positive_indices = torch.cat([
         torch.arange(batch_size, 2 * batch_size),
         torch.arange(0, batch_size)

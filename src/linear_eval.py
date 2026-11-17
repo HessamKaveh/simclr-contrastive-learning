@@ -18,7 +18,7 @@ def linear_eval():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     train_loader, test_loader = get_linear_eval_loaders(batch_size=256)
 
-    # ─── بارگذاری encoder از پیش آموزش‌دیده و فریز کردنش ───
+    # ─── load the pretrained encoder and freeze it ───
     encoder = Encoder().to(device)
     encoder.load_state_dict(torch.load(ENCODER_PATH, map_location=device))
     encoder.eval()

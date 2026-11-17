@@ -13,7 +13,7 @@ CLASS_NAMES = ["airplane", "automobile", "bird", "cat", "deer",
 MEAN = [0.4914, 0.4822, 0.4465]
 STD = [0.2470, 0.2435, 0.2616]
 
-# ─── Augmentation قوی برای Contrastive Learning ───────────
+# ─── Strong augmentation for contrastive learning ───────────
 simclr_transform = transforms.Compose([
     transforms.RandomResizedCrop(32, scale=(0.5, 1.0)),
     transforms.RandomHorizontalFlip(),
@@ -30,7 +30,7 @@ eval_transform = transforms.Compose([
 
 
 class ContrastivePairDataset(Dataset):
-    """برای هر تصویر، دو نسخه augment شده متفاوت برمی‌گردونه (positive pair)"""
+    """Returns two different augmented views of each image (positive pair)"""
     def __init__(self, base_dataset):
         self.base = base_dataset
 
@@ -45,14 +45,14 @@ class ContrastivePairDataset(Dataset):
 
 
 def get_pretrain_loader(batch_size=256):
-    """برای مرحله pretraining (بدون لیبل)"""
+    """For the pretraining stage (no labels)"""
     raw_dataset = datasets.CIFAR10(root=DATA_DIR, train=True, download=True, transform=None)
     pair_dataset = ContrastivePairDataset(raw_dataset)
     return DataLoader(pair_dataset, batch_size=batch_size, shuffle=True, num_workers=2, drop_last=True)
 
 
 def get_linear_eval_loaders(batch_size=256):
-    """برای مرحله ارزیابی خطی (Linear Probing) با لیبل واقعی"""
+    """For the linear evaluation stage (linear probing) with real labels"""
     train_set = datasets.CIFAR10(root=DATA_DIR, train=True, download=True, transform=eval_transform)
     test_set = datasets.CIFAR10(root=DATA_DIR, train=False, download=True, transform=eval_transform)
 
