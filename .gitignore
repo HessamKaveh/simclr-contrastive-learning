@@ -1,10 +1,11 @@
 __pycache__/
 *.pyc
-data/
-venv/
-.env
-*.pt
-!results/encoder_pretrained.pt
-# model checkpoints (kept out of git; reproduce with src/train.py)
+cache/
+logs/
 *.pt
 *.pth
+*.npy
+*.npz
+.env
+venv/
+data/

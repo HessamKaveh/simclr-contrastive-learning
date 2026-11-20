@@ -1,54 +1,52 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torchvision.models as models
 
 
 class Encoder(nn.Module):
-    """ResNet18 (no pretraining) as the feature extractor"""
-    def __init__(self, feature_dim=512):
+    """ResNet-18 adapted to 32x32 inputs (3x3 stem, no max-pool) -> 512-d features."""
+    dim = 512
+
+    def __init__(self):
         super().__init__()
-        resnet = models.resnet18(weights=None)
-        resnet.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
-        resnet.maxpool = nn.Identity()  # drop the initial maxpool because CIFAR images are small (32x32)
-        self.backbone = nn.Sequential(*list(resnet.children())[:-1])  # drop the final fc layer
-        self.feature_dim = feature_dim
-
-    def forward(self, x):
-        feat = self.backbone(x)
-        return feat.flatten(1)
-
-
-class ProjectionHead(nn.Module):
-    """MLP head that maps the feature space to the contrastive space"""
-    def __init__(self, in_dim=512, hidden_dim=512, out_dim=128):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(in_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, out_dim),
-        )
+        r = models.resnet18(weights=None)
+        r.conv1 = nn.Conv2d(3, 64, 3, 1, 1, bias=False)
+        r.maxpool = nn.Identity()
+        r.fc = nn.Identity()
+        self.net = r
 
     def forward(self, x):
         return self.net(x)
 
 
-class SimCLRModel(nn.Module):
-    def __init__(self):
+class SimCLR(nn.Module):
+    def __init__(self, proj_dim=128):
         super().__init__()
         self.encoder = Encoder()
-        self.projector = ProjectionHead(in_dim=self.encoder.feature_dim)
+        self.proj = nn.Sequential(nn.Linear(512, 2048), nn.BatchNorm1d(2048), nn.ReLU(), nn.Linear(2048, proj_dim))
 
     def forward(self, x):
-        feat = self.encoder(x)
-        proj = self.projector(feat)
-        return feat, proj
+        return self.proj(self.encoder(x))
 
 
-class LinearClassifier(nn.Module):
-    """For linear evaluation: the encoder is frozen, only this layer is trained"""
-    def __init__(self, in_dim=512, num_classes=10):
+class Classifier(nn.Module):
+    def __init__(self, num_classes=10):
         super().__init__()
-        self.fc = nn.Linear(in_dim, num_classes)
+        self.encoder = Encoder()
+        self.fc = nn.Linear(512, num_classes)
 
     def forward(self, x):
-        return self.fc(x)
+        return self.fc(self.encoder(x))
+
+
+def nt_xent(z1, z2, t=0.2):
+    """SimCLR's normalised-temperature cross-entropy over 2N views."""
+    z = F.normalize(torch.cat([z1, z2]), dim=1)
+    n = len(z1)
+    sim = z @ z.t() / t
+    sim.fill_diagonal_(float("-inf"))
+    target = torch.cat([torch.arange(n, 2 * n), torch.arange(0, n)]).to(z.device)
+    return F.cross_entropy(sim, target)
+
+
