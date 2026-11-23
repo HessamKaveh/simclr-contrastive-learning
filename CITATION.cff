@@ -8,5 +8,6 @@ authors:
     affiliation: "Istituto Italiano di Tecnologia (IIT)"
 repository-code: "https://github.com/HessamKaveh/simclr-contrastive-learning"
 license: MIT
-version: 1.0.0
+doi: 10.5281/zenodo.24465874
+version: 1.1.0
 date-released: "2026-11-23"
