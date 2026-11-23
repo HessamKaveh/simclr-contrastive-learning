@@ -1,5 +1,7 @@
 # Does self-supervised pre-training make a robot's vision robust, or just label-efficient?
 
+[![CI](https://github.com/HessamKaveh/simclr-contrastive-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/HessamKaveh/simclr-contrastive-learning/actions/workflows/ci.yml) ![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg) ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ### SimCLR vs supervised training on CIFAR-10, with few labels and a degraded camera
 
 Self-supervised pre-training such as SimCLR is usually sold on **label efficiency**: learn from unlabelled images,
@@ -154,6 +156,21 @@ in the `v1.0` release.
 * Hendrycks, Dietterich. *Benchmarking Neural Network Robustness to Common Corruptions and Perturbations.* ICLR 2019.
 * Geirhos et al. *Generalisation in Humans and Deep Neural Networks.* NeurIPS 2018.
 * Krizhevsky. *Learning Multiple Layers of Features from Tiny Images* (CIFAR-10). 2009.
+
+## Citation
+
+If you use this code, please cite it (metadata in [`CITATION.cff`](CITATION.cff)):
+
+```bibtex
+@software{kaveh2026_simclr_contrastive_learning,
+  author  = {Kaveh, Hessam},
+  title   = {Does self-supervised pre-training make a robot's vision robust, or just label-efficient?},
+  year    = {2026},
+  version = {1.0.0},
+  url     = {https://github.com/HessamKaveh/simclr-contrastive-learning},
+  license = {MIT}
+}
+```
 
 ---
 

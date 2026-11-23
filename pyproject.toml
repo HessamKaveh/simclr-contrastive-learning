@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501", "E702", "E741"]  # research code style: `a; b` one-liners, short names like `l`
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

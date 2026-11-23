@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Does self-supervised pre-training make a robot's vision robust, or just label-efficient?"
+authors:
+  - family-names: Kaveh
+    given-names: Hessam
+    affiliation: "Istituto Italiano di Tecnologia (IIT)"
+repository-code: "https://github.com/HessamKaveh/simclr-contrastive-learning"
+license: MIT
+version: 1.0.0
+date-released: "2026-11-23"
